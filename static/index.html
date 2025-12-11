@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Найди единомышленников</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #cccccc 0%, #ffffff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #ff4d4d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        .btn-success:hover {
+            background: #219a52;
+        }
+
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .preference-category {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .preference-category h4 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input {
+            width: auto;
+        }
+
+        .user-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .user-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .match-percentage {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #27ae60;
+            margin: 10px 0;
+        }
+
+        .chat-section {
+            border-top: 2px solid #eee;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+
+        .chat-window {
+            height: 300px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .message.own {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.other {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .nav-buttons button {
+            flex: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .admin-section {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .admin-card {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+        }
+
+        .admin-card h3 {
+            color: #856404;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .events-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .events-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 2px solid #667eea;
+        }
+
+            .event-card h4 {
+                color: #2c3e50;
+                margin-bottom: 10px;
+            }
+
+        .event-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .event-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        .event-tag {
+            background: #667eea;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .event-location {
+            color: #666;
+            font-style: italic;
+            margin: 5px 0;
+        }
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .participants-info {
+            margin: 10px 0;
+            padding: 8px;
+            background: #f0f8ff;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .participants-info small {
+            color: #666;
+            display: block;
+            margin-top: 3px;
+        }
+
+        .btn-success {
+            background: #27ae60 !important;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #219a52 !important;
+        }
+
+        .event-card button:disabled {
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Soulmate</h1>
+            <p>Найди людей со схожими интересами</p>
+        </div>
+
+        <div class="content">
+            <!-- Форма входа -->
+            <div id="loginSection" class="form-section active">
+                <h2>Вход в систему</h2>
+                <div id="loginStatus"></div>
+                <div class="form-group">
+                    <label for="loginUsername">Логин:</label>
+                    <input type="text" id="loginUsername" placeholder="Введите ваш логин" value="Администратор">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Пароль:</label>
+                    <input type="password" id="loginPassword" placeholder="Введите ваш пароль" value="12345678">
+                </div>
+                <button onclick="login()">Войти</button>
+                <div class="nav-buttons">
+                    <button class="btn-secondary" onclick="showSection('registerSection')">Регистрация</button>
+                </div>
+            </div>
+
+            <!-- Форма регистрации -->
+            <div id="registerSection" class="form-section">
+                <h2>Регистрация</h2>
+                <div id="registerStatus"></div>
+                <div class="form-group">
+                    <label for="regUsername">Логин:</label>
+                    <input type="text" id="regUsername" placeholder="Придумайте логин">
+                </div>
+                <div class="form-group">
+                    <label for="regAge">Возраст:</label>
+                    <input type="number" id="regAge" placeholder="Ваш возраст" min="18" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Пароль:</label>
+                    <input type="password" id="regPassword" placeholder="Придумайте пароль">
+                </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Подтвердите пароль:</label>
+                    <input type="password" id="regConfirmPassword" placeholder="Повторите пароль">
+                </div>
+
+                <h3>Выберите ваши предпочтения (до 5 в каждой категории)</h3>
+                
+                <div class="preferences-grid">
+                    <!-- Еда -->
+                    <div class="preference-category">
+                        <h4>🍕 Еда</h4>
+                        <div class="checkbox-group" id="foodPreferences">
+                            <label class="checkbox-item"><input type="checkbox" value="пицца"> Пицца</label>
+                            <label class="checkbox-item"><input type="checkbox" value="суши"> Суши</label>
+                            <label class="checkbox-item"><input type="checkbox" value="бургеры"> Бургеры</label>
+                            <label class="checkbox-item"><input type="checkbox" value="паста"> Паста</label>
+                            <label class="checkbox-item"><input type="checkbox" value="стейк"> Стейк</label>
+                            <label class="checkbox-item"><input type="checkbox" value="салат"> Салаты</label>
+                            <label class="checkbox-item"><input type="checkbox" value="суп"> Супы</label>
+                        </div>
+                    </div>
+
+                    <!-- Книги -->
+                    <div class="preference-category">
+                        <h4>📚 Книги</h4>
+                        <div class="checkbox-group" id="bookPreferences">
+                            <label class="checkbox-item"><input type="checkbox" value="фантастика"> Фантастика</label>
+                            <label class="checkbox-item"><input type="checkbox" value="детектив"> Детективы</label>
+                            <label class="checkbox-item"><input type="checkbox" value="роман"> Романы</label>
+                            <label class="checkbox-item"><input type="checkbox" value="биография"> Биографии</label>
+                            <label class="checkbox-item"><input type="checkbox" value="фэнтези"> Фэнтези</label>
+                            <label class="checkbox-item"><input type="checkbox" value="наука"> Научная литература</label>
+                            <label class="checkbox-item"><input type="checkbox" value="поэзия"> Поэзия</label>
+                        </div>
+                    </div>
+
+                    <!-- Фильмы -->
+                    <div class="preference-category">
+                        <h4>🎬 Фильмы</h4>
+                        <div class="checkbox-group" id="moviePreferences">
+                            <label class="checkbox-item"><input type="checkbox" value="комедия"> Комедии</label>
+                            <label class="checkbox-item"><input type="checkbox" value="драма"> Драмы</label>
+                            <label class="checkbox-item"><input type="checkbox" value="боевик"> Боевики</label>
+                            <label class="checkbox-item"><input type="checkbox" value="фантастика"> Фантастика</label>
+                            <label class="checkbox-item"><input type="checkbox" value="ужасы"> Ужасы</label>
+                            <label class="checkbox-item"><input type="checkbox" value="мультфильмы"> Мультфильмы</label>
+                            <label class="checkbox-item"><input type="checkbox" value="документальные"> Документальные</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn-secondary" onclick="showSection('loginSection')">Назад к входу</button>
+                    <button onclick="register()">Зарегистрироваться</button>
+                </div>
+            </div>
+
+            <!-- Основной интерфейс -->
+            <div id="mainSection" class="form-section">
+                <h2>Добро пожаловать, <span id="currentUser"></span>!</h2>
+                <!-- Секция событий -->
+                <div id="eventsSection" class="events-section">
+                    <h3>📅 Ближайшие события</h3>
+                    <div id="eventsList" class="events-list">
+                        <div class="loading">Загрузка событий...</div>
+                    </div>
+                </div>
+
+                <!-- Панель администратора -->
+                <div id="adminPanel" class="admin-section hidden">
+                    <h3>👑 Панель администратора</h3>
+                    <div class="nav-buttons">
+                        <button id="toggleViewBtn" class="btn-success" onclick="toggleAdminView()">Административный вид</button>
+                        <button class="btn-danger" onclick="clearDatabase()">Очистить БД</button>
+                    </div>
+
+                    <div id="normalView">
+                        <h4>Обычный вид</h4>
+                        <div id="adminUsersList">
+                            <div class="loading">Загрузка пользователей...</div>
+                        </div>
+                    </div>
+
+                    <div id="adminView" style="display: none;">
+                        <h4>Административный вид (все пользователи)</h4>
+                        <div id="adminDetailedList">
+                            <div class="loading">Загрузка данных...</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Обычный интерфейс для пользователей -->
+                <div id="userInterface">
+                    <div id="usersList">
+                        <div class="loading">Загрузка пользователей...</div>
+                    </div>
+                </div>
+                <!-- Чат -->
+                <div id="chatInterface" class="hidden">
+                    <div class="chat-section">
+                        <h3>Чат с <span id="chatWithUser"></span></h3>
+                        <div class="chat-window" id="chatMessages">
+                            <div class="message">Чат начат. Напишите первое сообщение!</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="messageInput" placeholder="Введите сообщение..." onkeypress="handleKeyPress(event)">
+                            <button onclick="sendMessage()">Отправить</button>
+                        </div>
+                        <button class="btn-secondary" onclick="closeChat()">Закрыть чат</button>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button class="btn-secondary" onclick="logout()">Выйти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let currentChatWith = null;
+        let isAdmin = false;
+        let currentUserData = null;
+
+        // Показать определенную секцию
+        function showSection(sectionId) {
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        // Показать сообщение статуса
+        function showStatus(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status-message ${isError ? 'status-error' : 'status-success'}">${message}</div>`;
+            setTimeout(() => {
+                element.innerHTML = '';
+            }, 5000);
+        }
+
+        // Проверка ограничения выбора (максимум 5)
+        function setupCheckboxLimits() {
+            const categories = ['foodPreferences', 'bookPreferences', 'moviePreferences'];
+            categories.forEach(category => {
+                const checkboxes = document.querySelectorAll(`#${category} input[type="checkbox"]`);
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function() {
+                        const checked = document.querySelectorAll(`#${category} input[type="checkbox"]:checked`);
+                        if (checked.length > 5) {
+                            this.checked = false;
+                            alert('Можно выбрать не более 5 вариантов в каждой категории!');
+                        }
+                    });
+                });
+            });
+        }
+
+        // Регистрация
+        async function register() {
+            const username = document.getElementById('regUsername').value;
+            const age = document.getElementById('regAge').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (!username || !age || !password) {
+                showStatus('registerStatus', 'Заполните все обязательные поля!', true);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showStatus('registerStatus', 'Пароли не совпадают!', true);
+                return;
+            }
+
+            // Сбор предпочтений
+            const preferences = {
+                food: Array.from(document.querySelectorAll('#foodPreferences input:checked')).map(cb => cb.value),
+                books: Array.from(document.querySelectorAll('#bookPreferences input:checked')).map(cb => cb.value),
+                movies: Array.from(document.querySelectorAll('#moviePreferences input:checked')).map(cb => cb.value)
+            };
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username,
+                        age: parseInt(age),
+                        password,
+                        preferences
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showStatus('registerStatus', 'Регистрация успешна! Теперь вы можете войти.', false);
+                    // Очищаем форму
+                    document.getElementById('regUsername').value = '';
+                    document.getElementById('regAge').value = '';
+                    document.getElementById('regPassword').value = '';
+                    document.getElementById('regConfirmPassword').value = '';
+                    // Сбрасываем чекбоксы
+                    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                    
+                    // Автоматически переключаемся на вход через 2 секунды
+                    setTimeout(() => {
+                        showSection('loginSection');
+                    }, 2000);
+                } else {
+                    showStatus('registerStatus', result.detail || 'Ошибка регистрации', true);
+                }
+            } catch (error) {
+                console.error('Ошибка регистрации:', error);
+                showStatus('registerStatus', 'Ошибка соединения с сервером', true);
+            }
+        }
+
+        // Вход
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showStatus('loginStatus', 'Заполните все поля!', true);
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    currentUser = username;
+                    isAdmin = result.is_admin || false;
+                    document.getElementById('currentUser').textContent = username;
+
+                    await loadCurrentUserData();
+
+                    // ЗАГРУЖАЕМ СОБЫТИЯ ПОСЛЕ ВХОДА
+                    await loadEvents();
+
+                    if (isAdmin) {
+                        document.getElementById('adminPanel').classList.remove('hidden');
+                        document.getElementById('userInterface').classList.add('hidden');
+                    } else {
+                        document.getElementById('adminPanel').classList.add('hidden');
+                        document.getElementById('userInterface').classList.remove('hidden');
+                    }
+
+                    showSection('mainSection');
+                    await loadUsers();
+                    
+                } else {
+                    showStatus('loginStatus', result.detail || 'Ошибка входа', true);
+                }
+            } catch (error) {
+                console.error('Ошибка входа:', error);
+                showStatus('loginStatus', 'Ошибка соединения с сервером', true);
+            }
+        }
+
+        // Загрузка данных текущего пользователя
+        async function loadCurrentUserData() {
+            try {
+                const response = await fetch(`/api/users/${currentUser}`);
+                if (response.ok) {
+                    currentUserData = await response.json();
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки данных пользователя:', error);
+            }
+        }
+
+        // Загрузка списка пользователей
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки пользователей');
+                }
+                const users = await response.json();
+
+                if (isAdmin) {
+                    updateAdminUsersList(users);
+                } else {
+                    updateUsersList(users);
+                }
+
+            } catch (error) {
+                console.error('Ошибка загрузки пользователей:', error);
+                const element = isAdmin ? document.getElementById('adminUsersList') : document.getElementById('usersList');
+                element.innerHTML = '<div class="status-error">Ошибка загрузки пользователей</div>';
+            }
+        }
+
+        // Обновление обычного списка пользователей
+        function updateUsersList(users) {
+            const usersList = document.getElementById('usersList');
+            
+            if (users.length === 0) {
+                usersList.innerHTML = '<p>Пока нет пользователей. Вы первый!</p>';
+                return;
+            }
+
+            // Фильтруем текущего пользователя и администратора
+            const otherUsers = users.filter(user => 
+                user.username !== currentUser && user.username !== 'Администратор'
+            );
+
+            if (otherUsers.length === 0) {
+                usersList.innerHTML = '<p>Пока нет других пользователей. Ожидайте регистрации новых пользователей.</p>';
+                return;
+            }
+
+            usersList.innerHTML = '';
+            
+            otherUsers.forEach(user => {
+                const matchPercentage = calculateMatchPercentage(user);
+                const userCard = createUserCard(user, matchPercentage);
+                usersList.appendChild(userCard);
+            });
+        }
+
+        // Обновление административного списка пользователей
+        function updateAdminUsersList(users) {
+            const adminUsersList = document.getElementById('adminUsersList');
+            const adminDetailedList = document.getElementById('adminDetailedList');
+            
+            adminUsersList.innerHTML = '';
+            adminDetailedList.innerHTML = '';
+            
+            // Обычный вид для администратора (с совпадениями, скрываем самого администратора)
+            const otherUsers = users.filter(user => user.username !== currentUser);
+
+            if (otherUsers.length === 0) {
+                adminUsersList.innerHTML = '<p>Пока нет других пользователей.</p>';
+                adminDetailedList.innerHTML = '<p>Пока нет других пользователей.</p>';
+                return;
+            }
+
+            otherUsers.forEach(user => {
+                const matchPercentage = calculateMatchPercentage(user);
+                const userCard = createUserCard(user, matchPercentage);
+                adminUsersList.appendChild(userCard);
+            });
+
+            // Детальный вид для администратора (все пользователи включая администратора)
+            users.forEach(user => {
+                const adminCard = createAdminUserCard(user);
+                adminDetailedList.appendChild(adminCard);
+            });
+        }
+
+        // Создание карточки пользователя
+        function createUserCard(user, matchPercentage) {
+            const userCard = document.createElement('div');
+            userCard.className = 'user-card';
+            
+            userCard.innerHTML = `
+                <h3>${user.username} (${user.age} лет)</h3>
+                <div class="match-percentage">Совпадение: ${matchPercentage}%</div>
+                <p><strong>Предпочтения:</strong></p>
+                <p>🍕 Еда: ${user.preferences.food.join(', ') || 'не указано'}</p>
+                <p>📚 Книги: ${user.preferences.books.join(', ') || 'не указано'}</p>
+                <p>🎬 Фильмы: ${user.preferences.movies.join(', ') || 'не указано'}</p>
+                ${matchPercentage > 0 ? `<button onclick="openChat('${user.username}')">Начать чат</button>` : ''}
+            `;
+            
+            return userCard;
+        }
+
+        // Создание административной карточки пользователя
+        function createAdminUserCard(user) {
+            const adminCard = document.createElement('div');
+            adminCard.className = 'user-card admin-card';
+            adminCard.innerHTML = `
+                <h3>👤 ${user.username} ${user.username === 'Администратор' ? '(Админ)' : ''}</h3>
+                <p><strong>Возраст:</strong> ${user.age}</p>
+                <p><strong>Пароль:</strong> ${user.password}</p>
+                <p><strong>Предпочтения:</strong></p>
+                <p>🍕 Еда: ${user.preferences.food.join(', ') || 'не указано'}</p>
+                <p>📚 Книги: ${user.preferences.books.join(', ') || 'не указано'}</p>
+                <p>🎬 Фильмы: ${user.preferences.movies.join(', ') || 'не указано'}</p>
+                ${user.username !== currentUser && user.username !== 'Администратор' ? `<button class="btn-danger" onclick="deleteUser('${user.username}')">Удалить пользователя</button>` : ''}
+            `;
+            return adminCard;
+        }
+
+        // Расчет процента совпадения
+        function calculateMatchPercentage(otherUser) {
+            if (!currentUserData || !otherUser) {
+                return 0;
+            }
+
+            const currentPrefs = currentUserData.preferences;
+            const otherPrefs = otherUser.preferences;
+
+            let totalMatches = 0;
+            let totalPossible = 0;
+
+            // Сравниваем каждую категорию
+            ['food', 'books', 'movies'].forEach(category => {
+                const current = currentPrefs[category] || [];
+                const other = otherPrefs[category] || [];
+                
+                if (current.length > 0 && other.length > 0) {
+                    const matches = current.filter(pref => other.includes(pref)).length;
+                    totalMatches += matches;
+                    totalPossible += Math.max(current.length, other.length);
+                }
+            });
+
+            if (totalPossible === 0) return 0;
+            
+            return Math.round((totalMatches / totalPossible) * 100);
+        }
+
+        // Удаление пользователя (для администратора)
+        async function deleteUser(username) {
+            if (!isAdmin) {
+                alert('Недостаточно прав!');
+                return;
+            }
+
+            if (!confirm(`Вы уверены, что хотите удалить пользователя ${username}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/users/${username}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Пользователь удален!');
+                    loadUsers();
+                } else {
+                    alert(result.detail || 'Ошибка удаления пользователя');
+                }
+            } catch (error) {
+                console.error('Ошибка удаления:', error);
+                alert('Ошибка соединения с сервером');
+            }
+        }
+
+        // Открыть чат
+        function openChat(username) {
+            currentChatWith = username;
+            document.getElementById('chatWithUser').textContent = username;
+            document.getElementById('chatInterface').classList.remove('hidden');
+            document.getElementById('chatMessages').innerHTML = '<div class="message">Чат начат. Напишите первое сообщение!</div>';
+        }
+
+        // Закрыть чат
+        function closeChat() {
+            currentChatWith = null;
+            document.getElementById('chatInterface').classList.add('hidden');
+        }
+
+        // Отправить сообщение
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Добавляем сообщение от себя
+            const ownMessage = document.createElement('div');
+            ownMessage.className = 'message own';
+            ownMessage.textContent = message;
+            chatMessages.appendChild(ownMessage);
+            
+            // Очищаем поле ввода
+            messageInput.value = '';
+            
+            // Прокручиваем вниз
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Обработка нажатия Enter в поле сообщения
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Очистка базы данных (только для админа)
+        async function clearDatabase() {
+            if (!isAdmin) {
+                alert('Недостаточно прав!');
+                return;
+            }
+
+            if (!confirm('Вы уверены, что хотите очистить всю базу данных? Все пользователи (кроме администратора) будут удалены!')) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/clear-db', {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('База данных очищена!');
+                    loadUsers();
+                } else {
+                    alert(result.detail || 'Ошибка очистки БД');
+                }
+            } catch (error) {
+                console.error('Ошибка очистки БД:', error);
+                alert('Ошибка соединения с сервером');
+            }
+        }
+
+        // Переключение между обычным и административным видом
+        function toggleAdminView() {
+            const normalView = document.getElementById('normalView');
+            const adminView = document.getElementById('adminView');
+            const toggleBtn = document.getElementById('toggleViewBtn');
+            
+            if (normalView.style.display !== 'none') {
+                normalView.style.display = 'none';
+                adminView.style.display = 'block';
+                toggleBtn.textContent = 'Обычный вид';
+            } else {
+                normalView.style.display = 'block';
+                adminView.style.display = 'none';
+                toggleBtn.textContent = 'Административный вид';
+            }
+        }
+        // Загрузка событий
+        async function loadEvents() {
+            try {
+                const response = await fetch('/event/');
+                if (!response.ok) {
+                    throw new Error('Ошибка загрузки событий');
+                }
+                const events = await response.json();
+                displayEvents(events);
+            } catch (error) {
+                console.error('Ошибка загрузки событий:', error);
+                document.getElementById('eventsList').innerHTML =
+                    '<div class="status-error">Ошибка загрузки событий</div>';
+            }
+        }
+        // Отображение событий
+        function displayEvents(events) {
+            const eventsList = document.getElementById('eventsList');
+
+            if (events.length === 0) {
+                eventsList.innerHTML = '<p>No scheduled events yet</p>';
+                return;
+            }
+
+            eventsList.innerHTML = events.map(event => {
+                // Check if current user is already attending
+                const isJoined = currentUser && event.participants.includes(currentUser);
+                const participantCount = event.participants.length;
+
+                return `
+            <div class="event-card">
+                <h4>${event.title}</h4>
+                ${event.image ? `<img src="${event.image}" alt="${event.title}" class="event-image">` : ''}
+                <p>${event.description}</p>
+                <div class="event-tags">
+                    ${event.tags.map(tag => `<span class="event-tag">${tag}</span>`).join('')}
+                </div>
+                <div class="event-location">📍 ${event.location}</div>
+                
+                <!-- Participants info -->
+                <div class="participants-info">
+                    <span>👥 ${participantCount} attending</span>
+                    ${participantCount > 0 ?
+                        `<small>(${event.participants.slice(0, 3).join(', ')}${event.participants.length > 3 ? '...' : ''})</small>` :
+                        ''
+                    }
+                </div>
+                
+                <!-- Join/Leave button -->
+                ${currentUser ? `
+                    <button 
+                        onclick="${isJoined ? 'leaveEvent' : 'joinEvent'}(${event.id})" 
+                        class="${isJoined ? 'btn-success' : ''}"
+                        ${isJoined ? 'disabled style="opacity:0.7;"' : ''}
+                    >
+                        ${isJoined ? 'You are going!) ✓' : 'I\'m going!'}
+                    </button>
+                ` : `
+                    <button onclick="alert('Please login to join events!')">
+                        I'm going!
+                    </button>
+                `}
+            </div>
+        `;
+            }).join('');
+        }
+
+        // Join event
+        async function joinEvent(eventId) {
+            if (!currentUser) {
+                alert('Please login to join events!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/event/${eventId}/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username: currentUser })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Reload events to update UI
+                    await loadEvents();
+                } else {
+                    alert(result.detail || 'Error joining event');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Connection error');
+            }
+        }
+
+        // Leave event
+        async function leaveEvent(eventId) {
+            if (!currentUser) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/event/${eventId}/leave`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username: currentUser })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Reload events to update UI
+                    await loadEvents();
+                } else {
+                    alert(result.detail || 'Error leaving event');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Connection error');
+            }
+        }
+        // Выход
+        function logout() {
+            currentUser = null;
+            currentChatWith = null;
+            isAdmin = false;
+            currentUserData = null;
+            showSection('loginSection');
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            setupCheckboxLimits();
+            
+            // Автофокус на поле логина
+            document.getElementById('loginUsername').focus();
+        });
+    </script>
+</body>
+</html>
