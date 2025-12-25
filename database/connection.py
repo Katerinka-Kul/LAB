@@ -1,40 +1,59 @@
-from sqlmodel import SQLModel, Session, create_engine
-from models.events import Event
+from sqlmodel import SQLModel, Session, create_engine, select
 from models.users import User
+from models.events import Event
 
-# SQLite database file
-database_file = "soulmate.db"
-database_connection_string = f"sqlite:///{database_file}"
-
-# Connection arguments for SQLite
+# Одна БД для всего приложения
+DATABASE_FILE = "soulmate.db"
+DATABASE_URL = f"sqlite:///{DATABASE_FILE}"
 connect_args = {"check_same_thread": False}
 
-# Create engine
+# Создаем единый движок для всей БД
 engine = create_engine(
-    database_connection_string,
-    echo=True,  # Set to False in production
+    DATABASE_URL,
+    echo=True,  # Показывать SQL запросы в консоли
     connect_args=connect_args
 )
 
-# Create all tables
+# Создание всех таблиц
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
-# Get session dependency
+# Генератор сессий для dependency injection
 def get_session():
     with Session(engine) as session:
         yield session
 
-# Initialize database
+# Инициализация БД с тестовыми данными
 def init_db():
     create_db_and_tables()
     
-    # Add initial events if database is empty
     with Session(engine) as session:
-        events_count = session.query(Event).count()
-        if events_count == 0:
-            # Add sample events
-            events = [
+        # Проверяем, есть ли уже администратор
+        admin = session.exec(
+            select(User).where(User.username == "Administrator")
+        ).first()
+        
+        if not admin:
+            # Создаем администратора
+            admin_user = User(
+                username="Administrator",
+                age=21,
+                password="12345678",
+                is_admin=True,
+                preferences={
+                    "food": ["pizza", "burgers"],
+                    "books": ["fantasy", "detective"],
+                    "movies": ["fantasy", "action"]
+                }
+            )
+            session.add(admin_user)
+            print("Administrator created")
+        
+        # Проверяем, есть ли тестовые события
+        events = session.exec(select(Event)).all()
+        if len(events) == 0:
+            # Создаем тестовые события
+            sample_events = [
                 Event(
                     title="Italian Cuisine Evening",
                     image="/static/images/italian-food.jpg",
@@ -61,6 +80,9 @@ def init_db():
                 )
             ]
             
-            for event in events:
+            for event in sample_events:
                 session.add(event)
-            session.commit()
+            print("Sample events created")
+        
+        session.commit()
+        print(" Database initialized successfully!")
