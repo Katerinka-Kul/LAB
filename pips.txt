@@ -1,0 +1,1 @@
+pip install fastapi uvicorn sqlmodel pysqlite3 beautifulsoup4 chromadb aiohttp nest-asyncio

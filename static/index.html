@@ -462,7 +462,6 @@
             font-weight: 600;
         }
 
-        /* Message display for events */
         .event-message {
             padding: 10px 15px;
             margin: 10px 0;
@@ -481,6 +480,316 @@
             background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+
+        }
+        .recommendations-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecf0 100%);
+            border-radius: 15px;
+            border: 2px solid #667eea;
+        }
+
+        .recommendation-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            border-left: 5px solid #667eea;
+            transition: transform 0.2s;
+        }
+
+            .recommendation-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(102, 126, 234, 0.25);
+            }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .recommendation-badge {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .recommendation-explanation {
+            background: #f8f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-style: italic;
+            color: #4a5568;
+            border-left: 3px solid #48bb78;
+        }
+
+        .notifications-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe9e9 100%);
+            border-radius: 15px;
+            border: 2px solid #ff6b6b;
+        }
+
+        .notification-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.15);
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .notification-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .notification-info h3 {
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .notification-info p {
+            color: #4a5568;
+            margin: 5px 0;
+        }
+
+        .match-percentage {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #48bb78;
+            margin: 5px 0;
+        }
+
+        .notification-explanation {
+            background: #fef5f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-style: italic;
+            color: #c53030;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn-accept {
+            background: #48bb78;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+            .btn-accept:hover {
+                background: #38a169;
+                transform: scale(1.05);
+            }
+
+        .btn-reject {
+            background: #f56565;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+            .btn-reject:hover {
+                background: #e53e3e;
+                transform: scale(1.05);
+            }
+
+        .chat-activated-badge {
+            background: #48bb78;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 30px;
+        }
+
+            .loading-spinner::after {
+                content: '';
+                display: inline-block;
+                width: 40px;
+                height: 40px;
+                border: 4px solid #e2e8f0;
+                border-top-color: #667eea;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Стили для кнопки ИИ и модального окна */
+        .ai-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 24px;
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+
+        .ai-button:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #999;
+            width: auto;
+            padding: 0 10px;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .ai-query-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
+
+        .ai-query-input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .ai-response {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+            white-space: pre-wrap;
+        }
+
+        .ai-users-list {
+            margin-top: 15px;
+        }
+
+        .ai-user-item {
+            background: #fff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .ai-user-item strong {
+            color: #667eea;
         }
     </style>
 </head>
@@ -532,7 +841,7 @@
                 </div>
 
                 <h3>Выберите ваши предпочтения (до 5 в каждой категории)</h3>
-                
+
                 <div class="preferences-grid">
                     <!-- Еда -->
                     <div class="preference-category">
@@ -582,10 +891,28 @@
                     <button onclick="register()">Зарегистрироваться</button>
                 </div>
             </div>
-
+            
             <!-- Основной интерфейс -->
             <div id="mainSection" class="form-section">
                 <h2>Добро пожаловать, <span id="currentUser"></span>!</h2>
+                <div class="nav-buttons">
+                    <button class="btn-secondary" onclick="logout()">Выйти</button>
+                </div>
+                <!-- НОВАЯ СЕКЦИЯ: Уведомления о совпадениях -->
+                <div id="matchesNotificationsSection" class="notifications-section">
+                    <h3>💕 Потенциальные знакомства</h3>
+                    <div id="matchesNotificationsList">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+
+                <!-- НОВАЯ СЕКЦИЯ: Рекомендации событий -->
+                <div id="eventRecommendationsSection" class="recommendations-section">
+                    <h3>🎯 Рекомендованные события</h3>
+                    <div id="eventRecommendationsList">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
                 <!-- Секция событий -->
                 <div id="eventsSection" class="events-section">
                     <h3>📅 Ближайшие события</h3>
@@ -643,6 +970,35 @@
             </div>
         </div>
     </div>
+    
+    <!-- Кнопка ИИ -->
+    <button class="ai-button" onclick="openAIModal()">🤖</button>
+    
+    <!-- Модальное окно ИИ -->
+    <div id="aiModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🤖 ИИ-поиск единомышленников</h2>
+                <button class="close-modal" onclick="closeAIModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="aiQuery">Что вы ищете?</label>
+                <textarea id="aiQuery" class="ai-query-input" rows="3" placeholder="Например: мне нравится читать книги про эльфов и орков, которые изучают физику и математику, подбери мне человека, с которым я могу это обсудить"></textarea>
+            </div>
+            <div id="progressContainer" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p id="progressText" style="text-align: center; color: #666;">Создание векторной базы данных...</p>
+            </div>
+            <button onclick="performSemanticSearch()" id="searchBtn">🔍 Найти единомышленников</button>
+            <div id="aiResultContainer" style="display: none;">
+                <h3>📝 Ответ ИИ:</h3>
+                <div id="aiResponse" class="ai-response"></div>
+                <div id="aiUsersList" class="ai-users-list"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
         let currentUser = null;
@@ -656,6 +1012,10 @@
                 section.classList.remove('active');
             });
             document.getElementById(sectionId).classList.add('active');
+            // Обновляем видимость секций рекомендаций
+            if (sectionId === 'mainSection') {
+                updateSectionsVisibility();
+            }
         }
 
         // Показать сообщение статуса
@@ -777,6 +1137,11 @@
 
                     // ЗАГРУЖАЕМ СОБЫТИЯ ПОСЛЕ ВХОДА
                     await loadEvents();
+                    // НОВОЕ: загружаем рекомендации
+                    if (!isAdmin) {
+                        await loadEventRecommendations();
+                        await loadMatchNotifications();
+                    }
 
                     if (isAdmin) {
                         document.getElementById('adminPanel').classList.remove('hidden');
@@ -787,6 +1152,7 @@
                     }
 
                     showSection('mainSection');
+                    updateSectionsVisibility();
                     await loadUsers();
                     
                 } else {
@@ -804,6 +1170,12 @@
                 const response = await fetch(`/api/users/${currentUser}`);
                 if (response.ok) {
                     currentUserData = await response.json();
+
+                    // Загружаем рекомендации и уведомления после получения данных
+                    if (!isAdmin) {
+                        await loadEventRecommendations();
+                        await loadMatchNotifications();
+                    }
                 }
             } catch (error) {
                 console.error('Ошибка загрузки данных пользователя:', error);
@@ -842,9 +1214,17 @@
             }
 
             // Фильтруем текущего пользователя и администратора
-            const otherUsers = users.filter(user => 
+            let otherUsers = users.filter(user => 
                 user.username !== currentUser && user.username !== 'Администратор'
             );
+
+            // Добавляем процент совпадений и сортируем
+            otherUsers = otherUsers.map(user => {
+                return {
+                    ...user,
+                    matchPercentage: calculateMatchPercentage(user)
+                };
+            }).sort((a, b) => b.matchPercentage - a.matchPercentage);
 
             if (otherUsers.length === 0) {
                 usersList.innerHTML = '<p>Пока нет других пользователей. Ожидайте регистрации новых пользователей.</p>';
@@ -854,8 +1234,7 @@
             usersList.innerHTML = '';
             
             otherUsers.forEach(user => {
-                const matchPercentage = calculateMatchPercentage(user);
-                const userCard = createUserCard(user, matchPercentage);
+                const userCard = createUserCard(user, user.matchPercentage);
                 usersList.appendChild(userCard);
             });
         }
@@ -986,6 +1365,7 @@
 
         // Открыть чат
         function openChat(username) {
+            console.log('💬 Открываем чат с:', username);
             currentChatWith = username;
             document.getElementById('chatWithUser').textContent = username;
             document.getElementById('chatInterface').classList.remove('hidden');
@@ -1122,21 +1502,362 @@
         // Выход
         function logout() {
             currentUser = null;
-            currentChatWith = null;
-            isAdmin = false;
             currentUserData = null;
+            isAdmin = false;
+            currentChatWith = null;
+
+            // Очищаем новые секции
+            document.getElementById('eventRecommendationsList').innerHTML = '<div class="loading-spinner"></div>';
+            document.getElementById('matchesNotificationsList').innerHTML = '<div class="loading-spinner"></div>';
+
             showSection('loginSection');
             document.getElementById('loginUsername').value = '';
             document.getElementById('loginPassword').value = '';
         }
 
         // Инициализация при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             setupCheckboxLimits();
-            
-            // Автофокус на поле логина
             document.getElementById('loginUsername').focus();
+
+            // Скрываем секции рекомендаций при загрузке
+            document.getElementById('eventRecommendationsSection').style.display = 'none';
+            document.getElementById('matchesNotificationsSection').style.display = 'none';
         });
+        
+        // ============ НОВЫЕ ФУНКЦИИ ============
+
+        // Загрузка рекомендаций событий
+        async function loadEventRecommendations() {
+            console.log('loadEventRecommendations вызван');
+            console.log('currentUserData:', currentUserData);
+
+            if (!currentUserData) {
+                console.log('Нет данных пользователя');
+                return;
+            }
+
+            console.log(`Загружаем рекомендации для user_id: ${currentUserData.id}`);
+
+            try {
+                const response = await fetch(`/api/notifications/events/${currentUserData.id}`);
+                console.log('Статус ответа:', response.status);
+
+                if (response.ok) {
+                    const recommendations = await response.json();
+                    console.log('Получены рекомендации:', recommendations);
+                    displayEventRecommendations(recommendations);
+                } else {
+                    console.log('Ошибка загрузки, статус:', response.status);
+                    document.getElementById('eventRecommendationsList').innerHTML =
+                        '<div class="empty-state">Нет рекомендаций событий</div>';
+                }
+            } catch (error) {
+                console.error('Error loading event recommendations:', error);
+                document.getElementById('eventRecommendationsList').innerHTML =
+                    '<div class="empty-state">Ошибка загрузки рекомендаций</div>';
+            }
+        }
+
+        // Отображение рекомендаций
+        function displayEventRecommendations(recommendations) {
+            const container = document.getElementById('eventRecommendationsList');
+
+            if (!recommendations || recommendations.length === 0) {
+                container.innerHTML = '<div class="empty-state">🎯 Пока нет персональных рекомендаций</div>';
+                return;
+            }
+
+            container.innerHTML = recommendations.map(rec => `
+                <div class="recommendation-card" id="rec-${rec.recommendation_id}">
+                    <div class="recommendation-header">
+                        <h4>${rec.event_title}</h4>
+                        <span class="recommendation-badge">Рекомендовано для вас</span>
+                    </div>
+            
+                    ${rec.event_image ? `<img src="${rec.event_image}" alt="${rec.event_title}" class="event-image">` : ''}
+            
+                    <div class="recommendation-explanation">
+                        💡 ${rec.explanation}
+                    </div>
+            
+                    <p class="event-description">${rec.event_description}</p>
+            
+                    <div class="event-details">
+                        <div class="event-location">
+                            <span class="location-icon">📍</span>
+                            ${rec.event_location}
+                        </div>
+                        ${rec.event_tags && rec.event_tags.length > 0 ? `
+                            <div class="event-tags">
+                                ${rec.event_tags.map(tag => `<span class="event-tag">${tag}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+            
+                    <div class="event-actions">
+                        <button class="btn-primary" onclick="markRecommendationClicked(${rec.recommendation_id})">
+                            👍 Интересно
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Отметить клик
+        async function markRecommendationClicked(recommendationId) {
+            try {
+                const response = await fetch(
+                    `/api/notifications/events/${recommendationId}/click?user_id=${currentUserData.id}`,
+                    { method: 'POST' }
+                );
+
+                if (response.ok) {
+                    alert('Спасибо за интерес!');
+                    const recCard = document.getElementById(`rec-${recommendationId}`);
+                    if (recCard) {
+                        const button = recCard.querySelector('button');
+                        if (button) {
+                            button.disabled = true;
+                            button.textContent = '✓ Отмечено';
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error marking recommendation:', error);
+            }
+        }
+
+        // Загрузка уведомлений о совпадениях
+        async function loadMatchNotifications() {
+            if (!currentUserData) return;
+
+            try {
+                const response = await fetch(`/api/notifications/matches/${currentUserData.id}`);
+                if (response.ok) {
+                    const notifications = await response.json();
+                    displayMatchNotifications(notifications);
+                } else {
+                    document.getElementById('matchesNotificationsList').innerHTML =
+                        '<div class="empty-state">Нет новых уведомлений</div>';
+                }
+            } catch (error) {
+                console.error('Error loading match notifications:', error);
+                document.getElementById('matchesNotificationsList').innerHTML =
+                    '<div class="empty-state">Ошибка загрузки уведомлений</div>';
+            }
+        }
+
+        // Отображение уведомлений
+        function displayMatchNotifications(notifications) {
+            const container = document.getElementById('matchesNotificationsList');
+
+            if (!notifications || notifications.length === 0) {
+                container.innerHTML = '<div class="empty-state">💕 Пока нет предложений знакомств</div>';
+                return;
+            }
+
+            container.innerHTML = notifications.map(notif => `
+                <div class="notification-card" id="notif-${notif.notification_id}">
+                    <div class="notification-content">
+                        <div class="notification-info">
+                            <h3>${notif.other_username} (${notif.other_age} лет)</h3>
+                            <div class="match-percentage">
+                                Совпадение: ${notif.match_percentage}%
+                            </div>
+                            <div class="notification-explanation">
+                                💌 ${notif.explanation || 'У вас много общих интересов!'}
+                            </div>
+                            <p><small>Истекает: ${new Date(notif.expires_at).toLocaleDateString()}</small></p>
+                        </div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="btn-accept" onclick="respondToMatch(${notif.notification_id}, 'accepted')">
+                            ✓ Хочу
+                        </button>
+                        <button class="btn-reject" onclick="respondToMatch(${notif.notification_id}, 'rejected')">
+                            ✗ Не хочу
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Ответ на уведомление (ИСПРАВЛЕННАЯ ВЕРСИЯ)
+        async function respondToMatch(notificationId, status) {
+            console.log('📤 Отправляем ответ:', { notificationId, status });
+
+            try {
+                const response = await fetch(
+                    `/api/notifications/matches/${notificationId}/respond/${currentUserData.id}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status: status })
+                    }
+                );
+
+                console.log('📨 Статус ответа от сервера:', response.status);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Данные от сервера:', data);
+
+                    // Убираем уведомление из интерфейса
+                    const notificationElement = document.getElementById(`notif-${notificationId}`);
+                    if (notificationElement) {
+                        notificationElement.remove();
+                    }
+
+                    if (status === 'accepted') {
+                        if (data.chat_activated) {
+                            console.log('💬 Взаимная симпатия! Открываем чат с:', data.other_user);
+
+                            // Показываем сообщение
+                            alert('❣️ Взаимная симпатия! Чат открыт!');
+
+                            // Открываем чат с пользователем
+                            if (data.other_user && data.other_user.username) {
+                                openChat(data.other_user.username);
+                            } else {
+                                console.error('❌ Нет данных о другом пользователе');
+                            }
+                        } else {
+                            console.log('⏳ Ожидаем ответа второго пользователя');
+                            alert('💌 Спасибо за интерес! Ожидаем ответа второго пользователя.');
+                        }
+                    } else {
+                        console.log('✖️ Ответ "не интересно" принят');
+                        alert('✅ Ответ принят');
+                    }
+
+                    // Проверяем, остались ли еще уведомления
+                    const container = document.getElementById('matchesNotificationsList');
+                    if (container.children.length === 0) {
+                        container.innerHTML = '<div class="empty-state">💕 Пока нет предложений</div>';
+                    }
+                } else {
+                    const error = await response.json();
+                    console.error('❌ Ошибка сервера:', error);
+                    alert('Ошибка: ' + (error.detail || 'Неизвестная ошибка'));
+                }
+            } catch (error) {
+                console.error('❌ Ошибка соединения:', error);
+                alert('Ошибка соединения с сервером');
+            }
+        }
+        
+        // Функция для обновления видимости секций
+        function updateSectionsVisibility() {
+            const eventSection = document.getElementById('eventRecommendationsSection');
+            const matchSection = document.getElementById('matchesNotificationsSection');
+
+            if (!isAdmin && currentUserData) {
+                eventSection.style.display = 'block';
+                matchSection.style.display = 'block';
+                console.log('Секции отображены для пользователя');
+            } else {
+                eventSection.style.display = 'none';
+                matchSection.style.display = 'none';
+                console.log('Секции скрыты');
+            }
+        }
+        
+        // ============ ФУНКЦИИ ДЛЯ ИИ ============
+        
+        function openAIModal() {
+            document.getElementById('aiModal').classList.add('active');
+            document.getElementById('aiQuery').value = '';
+            document.getElementById('aiResultContainer').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'none';
+        }
+        
+        function closeAIModal() {
+            document.getElementById('aiModal').classList.remove('active');
+        }
+        
+        async function performSemanticSearch() {
+            const query = document.getElementById('aiQuery').value.trim();
+            if (!query) {
+                alert('Пожалуйста, введите ваш запрос');
+                return;
+            }
+            
+            // Получаем текущий HTML страницы
+            const currentHtml = document.documentElement.outerHTML;
+            
+            // Показываем прогресс
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressText').textContent = 'Создание векторной базы данных...';
+            document.getElementById('searchBtn').disabled = true;
+            
+            // Анимация прогресса
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                if (progress < 90) {
+                    progress += 5;
+                    document.getElementById('progressFill').style.width = progress + '%';
+                }
+            }, 500);
+            
+            try {
+                const response = await fetch('/api/semantic/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        page_html: currentHtml
+                    })
+                });
+                
+                clearInterval(progressInterval);
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('progressText').textContent = 'Завершено!';
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    displayAIResult(result);
+                } else {
+                    const error = await response.json();
+                    alert('Ошибка: ' + (error.detail || 'Неизвестная ошибка'));
+                }
+            } catch (error) {
+                clearInterval(progressInterval);
+                console.error('Ошибка семантического поиска:', error);
+                alert('Ошибка соединения с сервером');
+            } finally {
+                setTimeout(() => {
+                    document.getElementById('progressContainer').style.display = 'none';
+                    document.getElementById('searchBtn').disabled = false;
+                }, 1000);
+            }
+        }
+        
+        function displayAIResult(result) {
+            document.getElementById('aiResultContainer').style.display = 'block';
+            document.getElementById('aiResponse').innerHTML = result.answer.replace(/\n/g, '<br>');
+            
+            if (result.users && result.users.length > 0) {
+                const usersHtml = `
+                    <h3>👥 Найденные пользователи:</h3>
+                    ${result.users.map(user => `
+                        <div class="ai-user-item">
+                            <strong>${user.username}</strong> (возраст ${user.age} лет)<br>
+                            <small>Сходство: ${(user.similarity_score * 100).toFixed(1)}%</small><br>
+                            📚 Книги: ${user.books || 'не указано'}<br>
+                            🎬 Фильмы: ${user.movies || 'не указано'}<br>
+                            🍕 Еда: ${user.food || 'не указано'}
+                        </div>
+                    `).join('')}
+                `;
+                document.getElementById('aiUsersList').innerHTML = usersHtml;
+            } else {
+                document.getElementById('aiUsersList').innerHTML = '<p>Не найдено подходящих пользователей</p>';
+            }
+        }
     </script>
 </body>
 </html>
